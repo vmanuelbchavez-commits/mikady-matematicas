@@ -80,7 +80,6 @@ function App() {
 
   const handlePerfilCompletado = () => {
     setPerfilCompleto(true)
-    window.location.href = '/dashboard'
   }
 
   if (loading || checkingProfile) {

@@ -54,8 +54,9 @@ function CompletarPerfil({ user, onComplete }) {
       }
 
       setMensaje({ tipo: 'success', texto: '¡Perfil completado! Redirigiendo...' })
+      onComplete()
       setTimeout(() => {
-        onComplete()
+        navigate('/dashboard')
       }, 1500)
     } catch (error) {
       setMensaje({ tipo: 'error', texto: 'Error: ' + error.message })
