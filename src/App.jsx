@@ -58,29 +58,35 @@ function App() {
       return
     }
 
-    const { data } = await supabase
-      .from('alumnos_info')
-      .select('datos_completos')
-      .eq('user_id', currentUser.id)
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('alumnos_info')
+        .select('datos_completos')
+        .eq('user_id', currentUser.id)
+        .maybeSingle()
 
-    setPerfilCompleto(data?.datos_completos || false)
+      if (error) {
+        console.error('Error verificando perfil:', error)
+        setPerfilCompleto(false)
+      } else {
+        setPerfilCompleto(data?.datos_completos || false)
+      }
+    } catch (err) {
+      console.error('Error:', err)
+      setPerfilCompleto(false)
+    }
     setCheckingProfile(false)
   }
 
   const handlePerfilCompletado = () => {
     setPerfilCompleto(true)
+    window.location.href = '/dashboard'
   }
 
   if (loading || checkingProfile) {
     return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'white', fontSize: '24px'}}>
       ⏳ Cargando...
     </div>
-  }
-
-  // Si el usuario está logueado pero no es admin y no completó su perfil
-  if (user && !isAdmin && !perfilCompleto) {
-    return <CompletarPerfil user={user} onComplete={handlePerfilCompletado} />
   }
 
   return (
@@ -93,6 +99,7 @@ function App() {
         <Route path="/ejercicios" element={user ? <Ejercicios user={user} /> : <Navigate to="/login" />} />
         <Route path="/anotaciones" element={user ? <Anotaciones user={user} /> : <Navigate to="/login" />} />
         <Route path="/mis-notas" element={user ? <MisNotas user={user} /> : <Navigate to="/login" />} />
+        <Route path="/completar-perfil" element={user && !isAdmin ? <CompletarPerfil user={user} onComplete={handlePerfilCompletado} /> : <Navigate to="/login" />} />
         
         {/* Rutas de administración */}
         <Route path="/admin" element={user && isAdmin ? <AdminDashboard user={user} /> : <Navigate to="/login" />} />
@@ -102,7 +109,7 @@ function App() {
         <Route path="/admin/usuarios" element={user && isAdmin ? <GestionUsuarios /> : <Navigate to="/login" />} />
         <Route path="/admin/notas" element={user && isAdmin ? <GestionNotas /> : <Navigate to="/login" />} />
         
-        <Route path="/" element={<Navigate to={user ? (isAdmin ? "/admin" : "/dashboard") : "/login"} />} />
+        <Route path="/" element={<Navigate to={user ? (isAdmin ? "/admin" : (perfilCompleto ? "/dashboard" : "/completar-perfil")) : "/login"} />} />
       </Routes>
     </Router>
   )

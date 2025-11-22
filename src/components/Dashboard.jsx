@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import './Dashboard.css'
@@ -8,9 +9,39 @@ const ADMIN_EMAIL = 'miss_mikady@mikady.com'
 function Dashboard({ user }) {
   const navigate = useNavigate()
   const isAdmin = user.email === ADMIN_EMAIL
+  const [verificandoPerfil, setVerificandoPerfil] = useState(true)
+
+  useEffect(() => {
+    verificarPerfil()
+  }, [])
+
+  const verificarPerfil = async () => {
+    if (isAdmin) {
+      setVerificandoPerfil(false)
+      return
+    }
+
+    const { data } = await supabase
+      .from('alumnos_info')
+      .select('datos_completos')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (!data || !data.datos_completos) {
+      navigate('/completar-perfil')
+    } else {
+      setVerificandoPerfil(false)
+    }
+  }
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
+  }
+
+  if (verificandoPerfil) {
+    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'white', fontSize: '24px'}}>
+      ⏳ Cargando...
+    </div>
   }
 
   return (
