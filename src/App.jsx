@@ -11,9 +11,11 @@ import GestionClasesColegio from './components/Admin/GestionClasesColegio'
 import GestionClasesParticulares from './components/Admin/GestionClasesParticulares'
 import GestionEjercicios from './components/Admin/GestionEjercicios'
 import GestionUsuarios from './components/Admin/GestionUsuarios'
+import GestionNotas from './components/Admin/GestionNotas'
+import MisNotas from './components/MisNotas'
 import { supabase } from './supabaseClient'
 
-// Email del administrador - CAMBIAR POR EL EMAIL DE LA PROFESORA
+// Email del administrador
 const ADMIN_EMAIL = 'miss_mikady@mikady.com'
 
 function App() {
@@ -51,6 +53,7 @@ function App() {
         <Route path="/clases-particulares" element={user ? <ClasesParticulares user={user} /> : <Navigate to="/login" />} />
         <Route path="/ejercicios" element={user ? <Ejercicios user={user} /> : <Navigate to="/login" />} />
         <Route path="/anotaciones" element={user ? <Anotaciones user={user} /> : <Navigate to="/login" />} />
+        <Route path="/mis-notas" element={user ? <MisNotas user={user} /> : <Navigate to="/login" />} />
         
         {/* Rutas de administración */}
         <Route path="/admin" element={user && isAdmin ? <AdminDashboard user={user} /> : <Navigate to="/login" />} />
@@ -58,6 +61,7 @@ function App() {
         <Route path="/admin/clases-particulares" element={user && isAdmin ? <GestionClasesParticulares /> : <Navigate to="/login" />} />
         <Route path="/admin/ejercicios" element={user && isAdmin ? <GestionEjercicios /> : <Navigate to="/login" />} />
         <Route path="/admin/usuarios" element={user && isAdmin ? <GestionUsuarios /> : <Navigate to="/login" />} />
+        <Route path="/admin/notas" element={user && isAdmin ? <GestionNotas /> : <Navigate to="/login" />} />
         
         <Route path="/" element={<Navigate to={user ? (isAdmin ? "/admin" : "/dashboard") : "/login"} />} />
       </Routes>
@@ -66,4 +70,3 @@ function App() {
 }
 
 export default App
-

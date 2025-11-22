@@ -27,20 +27,23 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1>🎓 Plataforma de Matemáticas</h1>
-        <p className="subtitle">Aprende matemáticas de forma divertida</p>
+        <div className="welcome-header">
+          <h1>🌟 ¡Bienvenidos! 🌟</h1>
+          <h2>Plataforma de Miss Mikady</h2>
+          <p className="subtitle">✨ Aprende matemáticas de forma divertida ✨</p>
+        </div>
         
         <form onSubmit={handleLogin}>
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder="📧 Tu correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder="🔒 Tu contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -48,8 +51,8 @@ function Login() {
           
           {error && <p className="error">{error}</p>}
           
-          <button type="submit" disabled={loading}>
-            {loading ? 'Ingresando...' : 'Ingresar'}
+          <button type="submit" disabled={loading} className="login-button">
+            {loading ? '⏳ Ingresando...' : '🚀 ¡Entrar a Aprender!'}
           </button>
         </form>
       </div>

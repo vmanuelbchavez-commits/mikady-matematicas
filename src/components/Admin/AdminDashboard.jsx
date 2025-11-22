@@ -45,6 +45,12 @@ function AdminDashboard({ user }) {
             <p>Crear y administrar usuarios de alumnos</p>
           </div>
 
+          <div className="admin-card" onClick={() => navigate('/admin/notas')}>
+            <div className="card-icon">⭐</div>
+            <h2>Gestionar Notas</h2>
+            <p>Agregar calificaciones y comentarios a alumnos</p>
+          </div>
+
           <div className="admin-card" onClick={() => navigate('/dashboard')}>
             <div className="card-icon">👁️</div>
             <h2>Ver como Alumno</h2>
