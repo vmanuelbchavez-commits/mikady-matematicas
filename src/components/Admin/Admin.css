@@ -158,3 +158,83 @@
   border-radius: 5px;
   margin-bottom: 20px;
 }
+
+.alumnos-detalle-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.alumno-detalle-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-left: 5px solid #667eea;
+}
+
+.alumno-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.alumno-header h3 {
+  color: #667eea;
+  font-size: 22px;
+  margin: 0;
+}
+
+.badge-pendiente {
+  background: #f39c12;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.alumno-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-item strong {
+  color: #667eea;
+  font-size: 14px;
+}
+
+.info-item span {
+  color: #333;
+  font-size: 16px;
+}
+
+.observaciones-box {
+  background: #fff3cd;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid #ffc107;
+  margin: 15px 0;
+}
+
+.observaciones-box strong {
+  color: #856404;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.observaciones-box p {
+  color: #856404;
+  margin: 0;
+  line-height: 1.6;
+}

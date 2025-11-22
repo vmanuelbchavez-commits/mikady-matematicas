@@ -13,6 +13,7 @@ import GestionEjercicios from './components/Admin/GestionEjercicios'
 import GestionUsuarios from './components/Admin/GestionUsuarios'
 import GestionNotas from './components/Admin/GestionNotas'
 import MisNotas from './components/MisNotas'
+import CompletarPerfil from './components/CompletarPerfil'
 import { supabase } from './supabaseClient'
 
 // Email del administrador
@@ -22,26 +23,64 @@ function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [perfilCompleto, setPerfilCompleto] = useState(false)
+  const [checkingProfile, setCheckingProfile] = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       setIsAdmin(session?.user?.email === ADMIN_EMAIL)
       setLoading(false)
+      if (session?.user) {
+        verificarPerfil(session.user)
+      } else {
+        setCheckingProfile(false)
+      }
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       setIsAdmin(session?.user?.email === ADMIN_EMAIL)
+      if (session?.user) {
+        verificarPerfil(session.user)
+      } else {
+        setCheckingProfile(false)
+      }
     })
 
     return () => subscription.unsubscribe()
   }, [])
 
-  if (loading) {
-    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'white'}}>
-      Cargando...
+  const verificarPerfil = async (currentUser) => {
+    if (currentUser.email === ADMIN_EMAIL) {
+      setPerfilCompleto(true)
+      setCheckingProfile(false)
+      return
+    }
+
+    const { data } = await supabase
+      .from('alumnos_info')
+      .select('datos_completos')
+      .eq('user_id', currentUser.id)
+      .single()
+
+    setPerfilCompleto(data?.datos_completos || false)
+    setCheckingProfile(false)
+  }
+
+  const handlePerfilCompletado = () => {
+    setPerfilCompleto(true)
+  }
+
+  if (loading || checkingProfile) {
+    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: 'white', fontSize: '24px'}}>
+      ⏳ Cargando...
     </div>
+  }
+
+  // Si el usuario está logueado pero no es admin y no completó su perfil
+  if (user && !isAdmin && !perfilCompleto) {
+    return <CompletarPerfil user={user} onComplete={handlePerfilCompletado} />
   }
 
   return (

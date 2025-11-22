@@ -1,0 +1,134 @@
+.completar-perfil-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: url('/fondo.png') center/cover no-repeat fixed;
+  position: relative;
+}
+
+.completar-perfil-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(102, 126, 234, 0.85);
+}
+
+.completar-perfil-container {
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-box {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.welcome-box h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.welcome-box p {
+  font-size: 18px;
+}
+
+.form-box {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.form-box .form-group {
+  margin-bottom: 20px;
+}
+
+.form-box label {
+  display: block;
+  margin-bottom: 8px;
+  color: #667eea;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+  width: 100%;
+  padding: 12px;
+  border: 3px solid #667eea;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.form-box input:focus,
+.form-box select:focus,
+.form-box textarea:focus {
+  border-color: #ff6b6b;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+}
+
+.form-box small {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+  font-size: 14px;
+}
+
+.btn-submit {
+  width: 100%;
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.success-message {
+  background: #27ae60;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error-message {
+  background: #e74c3c;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}

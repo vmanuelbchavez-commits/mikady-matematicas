@@ -166,20 +166,68 @@ function GestionUsuarios() {
 
           <div className="items-list">
             <h2>Alumnos Registrados ({usuarios.length})</h2>
-            <div className="usuarios-grid">
-              {usuarios.map((usuario) => (
-                <div key={usuario.id} className="item-card">
-                  <h3>{usuario.nombre || 'Sin nombre'}</h3>
-                  <p>📧 {usuario.email}</p>
-                  <p>📅 Creado: {new Date(usuario.created_at).toLocaleDateString('es-PE')}</p>
-                  <div className="item-actions">
-                    <button onClick={() => eliminarAlumno(usuario.id, usuario.user_id)} className="btn-danger">
-                      Eliminar
-                    </button>
+            {usuarios.length === 0 ? (
+              <p>No hay alumnos registrados todavía</p>
+            ) : (
+              <div className="alumnos-detalle-grid">
+                {usuarios.map((usuario) => (
+                  <div key={usuario.id} className="alumno-detalle-card">
+                    <div className="alumno-header">
+                      <h3>👤 {usuario.nombre || 'Sin nombre'}</h3>
+                      {!usuario.datos_completos && (
+                        <span className="badge-pendiente">⚠️ Datos incompletos</span>
+                      )}
+                    </div>
+                    
+                    <div className="alumno-info-grid">
+                      <div className="info-item">
+                        <strong>📧 Email:</strong>
+                        <span>{usuario.email}</span>
+                      </div>
+                      
+                      {usuario.edad && (
+                        <div className="info-item">
+                          <strong>🎂 Edad:</strong>
+                          <span>{usuario.edad} años</span>
+                        </div>
+                      )}
+                      
+                      {usuario.grado && (
+                        <div className="info-item">
+                          <strong>📚 Grado:</strong>
+                          <span>{usuario.grado}º Primaria</span>
+                        </div>
+                      )}
+                      
+                      {usuario.nombre_padre && (
+                        <div className="info-item">
+                          <strong>👨‍👩‍👦 Padre/Madre:</strong>
+                          <span>{usuario.nombre_padre}</span>
+                        </div>
+                      )}
+                      
+                      <div className="info-item">
+                        <strong>📅 Registrado:</strong>
+                        <span>{new Date(usuario.created_at).toLocaleDateString('es-PE')}</span>
+                      </div>
+                    </div>
+
+                    {usuario.observaciones && (
+                      <div className="observaciones-box">
+                        <strong>📝 Observaciones:</strong>
+                        <p>{usuario.observaciones}</p>
+                      </div>
+                    )}
+
+                    <div className="item-actions">
+                      <button onClick={() => eliminarAlumno(usuario.id, usuario.user_id)} className="btn-danger">
+                        🗑️ Eliminar
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
