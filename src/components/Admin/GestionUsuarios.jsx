@@ -73,6 +73,39 @@ function GestionUsuarios() {
     setLoading(false)
   }
 
+  const eliminarAlumno = async (alumnoInfoId, userId) => {
+    if (!confirm('¿Estás segura de eliminar este alumno? Se eliminarán también todas sus notas.')) {
+      return
+    }
+
+    try {
+      // Primero eliminar de la tabla alumnos_info
+      const { error: infoError } = await supabase
+        .from('alumnos_info')
+        .delete()
+        .eq('id', alumnoInfoId)
+
+      if (infoError) throw infoError
+
+      // Eliminar las notas del alumno
+      await supabase
+        .from('notas_alumnos')
+        .delete()
+        .eq('user_id', userId)
+
+      // Nota: No podemos eliminar el usuario de auth desde aquí por seguridad
+      // Pero eliminamos su información de las tablas
+
+      setMensaje({ 
+        tipo: 'success', 
+        texto: 'Alumno eliminado. Para eliminarlo completamente, ve a Supabase > Authentication > Users.' 
+      })
+      cargarUsuarios()
+    } catch (error) {
+      setMensaje({ tipo: 'error', texto: 'Error al eliminar: ' + error.message })
+    }
+  }
+
   return (
     <div className="admin-page">
       <header className="page-header">
@@ -139,6 +172,11 @@ function GestionUsuarios() {
                   <h3>{usuario.nombre || 'Sin nombre'}</h3>
                   <p>📧 {usuario.email}</p>
                   <p>📅 Creado: {new Date(usuario.created_at).toLocaleDateString('es-PE')}</p>
+                  <div className="item-actions">
+                    <button onClick={() => eliminarAlumno(usuario.id, usuario.user_id)} className="btn-danger">
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
