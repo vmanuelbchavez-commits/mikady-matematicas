@@ -51,6 +51,12 @@ function AdminDashboard({ user }) {
             <p>Agregar calificaciones y comentarios a alumnos</p>
           </div>
 
+          <div className="admin-card" onClick={() => navigate('/admin/ver-notas')}>
+            <div className="card-icon">📊</div>
+            <h2>Ver Todas las Notas</h2>
+            <p>Revisar todas las notas que has puesto</p>
+          </div>
+
           <div className="admin-card" onClick={() => navigate('/dashboard')}>
             <div className="card-icon">👁️</div>
             <h2>Ver como Alumno</h2>

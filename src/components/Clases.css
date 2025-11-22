@@ -21,22 +21,23 @@
   color: white;
 }
 
-.grado-selector {
-  display: flex;
-  gap: 10px;
-  margin: 30px 0;
-  justify-content: center;
-}
-
-.grado-selector button {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
-}
-
-.grado-selector button.active {
-  background: #667eea;
+.grado-info {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
   color: white;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.grado-info h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.grado-info p {
+  font-size: 18px;
 }
 
 .clases-list {

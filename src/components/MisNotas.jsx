@@ -24,10 +24,14 @@ function MisNotas({ user }) {
     setLoading(false)
   }
 
+  const handleVolver = () => {
+    navigate('/dashboard')
+  }
+
   return (
     <div className="mis-notas-page">
       <header className="page-header">
-        <button onClick={() => navigate('/dashboard')} className="back-btn">← Volver</button>
+        <button onClick={handleVolver} className="back-btn">← Volver</button>
         <h1>⭐ Mis Notas y Progreso ⭐</h1>
       </header>
 

@@ -7,11 +7,31 @@ function ClasesColegio({ user }) {
   const navigate = useNavigate()
   const [clases, setClases] = useState([])
   const [grado, setGrado] = useState('1')
+  const [gradoAlumno, setGradoAlumno] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    cargarClases()
-  }, [grado])
+    cargarGradoAlumno()
+  }, [])
+
+  useEffect(() => {
+    if (gradoAlumno) {
+      cargarClases()
+    }
+  }, [grado, gradoAlumno])
+
+  const cargarGradoAlumno = async () => {
+    const { data } = await supabase
+      .from('alumnos_info')
+      .select('grado')
+      .eq('user_id', user.id)
+      .single()
+    
+    if (data?.grado) {
+      setGradoAlumno(data.grado)
+      setGrado(data.grado)
+    }
+  }
 
   const cargarClases = async () => {
     setLoading(true)
@@ -33,11 +53,12 @@ function ClasesColegio({ user }) {
       </header>
 
       <div className="container">
-        <div className="grado-selector">
-          <button className={grado === '1' ? 'active' : ''} onClick={() => setGrado('1')}>1º Primaria</button>
-          <button className={grado === '2' ? 'active' : ''} onClick={() => setGrado('2')}>2º Primaria</button>
-          <button className={grado === '3' ? 'active' : ''} onClick={() => setGrado('3')}>3º Primaria</button>
-        </div>
+        {gradoAlumno && (
+          <div className="grado-info">
+            <h2>📚 Clases de {gradoAlumno}º Primaria</h2>
+            <p>Aquí están todas tus clases</p>
+          </div>
+        )}
 
         {loading ? (
           <p className="loading">Cargando clases...</p>

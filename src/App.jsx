@@ -12,6 +12,7 @@ import GestionClasesParticulares from './components/Admin/GestionClasesParticula
 import GestionEjercicios from './components/Admin/GestionEjercicios'
 import GestionUsuarios from './components/Admin/GestionUsuarios'
 import GestionNotas from './components/Admin/GestionNotas'
+import VerNotas from './components/Admin/VerNotas'
 import MisNotas from './components/MisNotas'
 import CompletarPerfil from './components/CompletarPerfil'
 import { supabase } from './supabaseClient'
@@ -107,6 +108,7 @@ function App() {
         <Route path="/admin/ejercicios" element={user && isAdmin ? <GestionEjercicios /> : <Navigate to="/login" />} />
         <Route path="/admin/usuarios" element={user && isAdmin ? <GestionUsuarios /> : <Navigate to="/login" />} />
         <Route path="/admin/notas" element={user && isAdmin ? <GestionNotas /> : <Navigate to="/login" />} />
+        <Route path="/admin/ver-notas" element={user && isAdmin ? <VerNotas /> : <Navigate to="/login" />} />
         
         <Route path="/" element={<Navigate to={user ? (isAdmin ? "/admin" : (perfilCompleto ? "/dashboard" : "/completar-perfil")) : "/login"} />} />
       </Routes>

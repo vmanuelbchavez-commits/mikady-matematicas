@@ -10,6 +10,7 @@ function Dashboard({ user }) {
   const navigate = useNavigate()
   const isAdmin = user.email === ADMIN_EMAIL
   const [verificandoPerfil, setVerificandoPerfil] = useState(true)
+  const [tieneAccesoParticulares, setTieneAccesoParticulares] = useState(false)
 
   useEffect(() => {
     verificarPerfil()
@@ -18,18 +19,20 @@ function Dashboard({ user }) {
   const verificarPerfil = async () => {
     if (isAdmin) {
       setVerificandoPerfil(false)
+      setTieneAccesoParticulares(true)
       return
     }
 
     const { data } = await supabase
       .from('alumnos_info')
-      .select('datos_completos')
+      .select('datos_completos, acceso_particulares')
       .eq('user_id', user.id)
       .maybeSingle()
 
     if (!data || !data.datos_completos) {
       navigate('/completar-perfil')
     } else {
+      setTieneAccesoParticulares(data.acceso_particulares || false)
       setVerificandoPerfil(false)
     }
   }
@@ -70,11 +73,13 @@ function Dashboard({ user }) {
             <p>📚 Aprende con tus compañeros</p>
           </div>
 
-          <div className="card card-2" onClick={() => navigate('/clases-particulares')}>
-            <div className="card-icon">👨‍🏫</div>
-            <h2>Clases Particulares</h2>
-            <p>🎥 Clases especiales en vivo</p>
-          </div>
+          {tieneAccesoParticulares && (
+            <div className="card card-2" onClick={() => navigate('/clases-particulares')}>
+              <div className="card-icon">👨‍🏫</div>
+              <h2>Clases Particulares</h2>
+              <p>🎥 Clases especiales en vivo</p>
+            </div>
+          )}
 
           <div className="card card-3" onClick={() => navigate('/ejercicios')}>
             <div className="card-icon">📝</div>

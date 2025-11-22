@@ -73,6 +73,24 @@ function GestionUsuarios() {
     setLoading(false)
   }
 
+  const toggleAccesoParticulares = async (alumnoInfoId, accesoActual) => {
+    const nuevoAcceso = !accesoActual
+    const { error } = await supabase
+      .from('alumnos_info')
+      .update({ acceso_particulares: nuevoAcceso })
+      .eq('id', alumnoInfoId)
+
+    if (error) {
+      setMensaje({ tipo: 'error', texto: 'Error al actualizar acceso' })
+    } else {
+      setMensaje({ 
+        tipo: 'success', 
+        texto: nuevoAcceso ? 'Acceso a clases particulares activado' : 'Acceso a clases particulares desactivado'
+      })
+      cargarUsuarios()
+    }
+  }
+
   const eliminarAlumno = async (alumnoInfoId, userId) => {
     if (!confirm('¿Estás segura de eliminar este alumno? Se eliminarán también todas sus notas.')) {
       return
@@ -220,6 +238,12 @@ function GestionUsuarios() {
                     )}
 
                     <div className="item-actions">
+                      <button 
+                        onClick={() => toggleAccesoParticulares(usuario.id, usuario.acceso_particulares)} 
+                        className={usuario.acceso_particulares ? "btn-success" : "btn-warning"}
+                      >
+                        {usuario.acceso_particulares ? '✅ Tiene acceso a particulares' : '🔒 Dar acceso a particulares'}
+                      </button>
                       <button onClick={() => eliminarAlumno(usuario.id, usuario.user_id)} className="btn-danger">
                         🗑️ Eliminar
                       </button>

@@ -101,6 +101,24 @@
   cursor: pointer;
 }
 
+.btn-warning {
+  background: #f39c12;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-success {
+  background: #27ae60;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .items-list {
   margin-top: 30px;
 }
@@ -237,4 +255,108 @@
   color: #856404;
   margin: 0;
   line-height: 1.6;
+}
+
+.alumno-notas-section {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.alumno-notas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+}
+
+.alumno-notas-header h2 {
+  color: #667eea;
+  margin: 0;
+}
+
+.alumno-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.stat {
+  background: #f0f0f0;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.stat.promedio {
+  background: #667eea;
+  color: white;
+}
+
+.no-notas-alumno {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+.notas-alumno-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.nota-mini {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid;
+}
+
+.nota-mini.nota-excelente { border-color: #27ae60; }
+.nota-mini.nota-bueno { border-color: #3498db; }
+.nota-mini.nota-regular { border-color: #f39c12; }
+.nota-mini.nota-mejorar { border-color: #e74c3c; }
+.nota-mini.nota-info { border-color: #9b59b6; }
+
+.nota-mini h4 {
+  color: #667eea;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.calificacion-mini {
+  background: #667eea;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.nota-desc-mini {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.comentario-mini {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.fecha-mini {
+  display: block;
+  color: #999;
+  font-size: 12px;
+  margin-top: 10px;
 }
