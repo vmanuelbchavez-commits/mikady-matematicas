@@ -1,0 +1,48 @@
+.anotaciones-page {
+  min-height: 100vh;
+}
+
+.nota-form {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.nota-form textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.nota-form button {
+  background: #667eea;
+  color: white;
+  width: 100%;
+}
+
+.anotaciones-list {
+  display: grid;
+  gap: 15px;
+}
+
+.nota-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.nota-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  padding: 5px 15px;
+}
