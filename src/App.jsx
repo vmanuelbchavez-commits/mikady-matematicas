@@ -14,7 +14,7 @@ import GestionUsuarios from './components/Admin/GestionUsuarios'
 import { supabase } from './supabaseClient'
 
 // Email del administrador - CAMBIAR POR EL EMAIL DE LA PROFESORA
-const ADMIN_EMAIL = 'profesora@mikady.com'
+const ADMIN_EMAIL = 'miss_mikady@mikady.com'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -66,3 +66,4 @@ function App() {
 }
 
 export default App
+
