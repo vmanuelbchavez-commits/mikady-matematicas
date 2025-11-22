@@ -24,8 +24,9 @@ function MisNotas({ user }) {
     setLoading(false)
   }
 
-  const handleVolver = () => {
-    navigate('/dashboard')
+  const handleVolver = (e) => {
+    e.preventDefault()
+    window.location.href = '/dashboard'
   }
 
   return (

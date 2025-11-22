@@ -45,10 +45,14 @@ function ClasesColegio({ user }) {
     setLoading(false)
   }
 
+  const handleVolver = () => {
+    window.location.href = '/dashboard'
+  }
+
   return (
     <div className="clases-page">
       <header className="page-header">
-        <button onClick={() => navigate('/dashboard')} className="back-btn">← Volver</button>
+        <button onClick={handleVolver} className="back-btn">← Volver</button>
         <h1>🏫 Clases del Colegio</h1>
       </header>
 

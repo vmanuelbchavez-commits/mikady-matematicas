@@ -48,10 +48,14 @@ function Anotaciones({ user }) {
     if (!error) cargarAnotaciones()
   }
 
+  const handleVolver = () => {
+    window.location.href = '/dashboard'
+  }
+
   return (
     <div className="anotaciones-page">
       <header className="page-header">
-        <button onClick={() => navigate('/dashboard')} className="back-btn">← Volver</button>
+        <button onClick={handleVolver} className="back-btn">← Volver</button>
         <h1>📋 Mis Anotaciones</h1>
       </header>
 

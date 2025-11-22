@@ -92,12 +92,24 @@ function GestionUsuarios() {
   }
 
   const eliminarAlumno = async (alumnoInfoId, userId) => {
-    if (!confirm('¿Estás segura de eliminar este alumno? Se eliminarán también todas sus notas.')) {
+    if (!confirm('¿Estás segura de eliminar este alumno? Se eliminarán sus datos y notas de la plataforma.')) {
       return
     }
 
     try {
-      // Primero eliminar de la tabla alumnos_info
+      setLoading(true)
+      
+      // Eliminar las notas del alumno primero
+      const { error: notasError } = await supabase
+        .from('notas_alumnos')
+        .delete()
+        .eq('user_id', userId)
+
+      if (notasError) {
+        console.error('Error eliminando notas:', notasError)
+      }
+
+      // Eliminar de la tabla alumnos_info
       const { error: infoError } = await supabase
         .from('alumnos_info')
         .delete()
@@ -105,22 +117,19 @@ function GestionUsuarios() {
 
       if (infoError) throw infoError
 
-      // Eliminar las notas del alumno
-      await supabase
-        .from('notas_alumnos')
-        .delete()
-        .eq('user_id', userId)
-
-      // Nota: No podemos eliminar el usuario de auth desde aquí por seguridad
-      // Pero eliminamos su información de las tablas
-
       setMensaje({ 
         tipo: 'success', 
-        texto: 'Alumno eliminado. Para eliminarlo completamente, ve a Supabase > Authentication > Users.' 
+        texto: 'Alumno eliminado de la plataforma. Para eliminarlo completamente de Supabase, ve a Authentication > Users y elimínalo manualmente.' 
       })
-      cargarUsuarios()
+      
+      setTimeout(() => {
+        setMensaje(null)
+        cargarUsuarios()
+      }, 3000)
     } catch (error) {
       setMensaje({ tipo: 'error', texto: 'Error al eliminar: ' + error.message })
+    } finally {
+      setLoading(false)
     }
   }
 
