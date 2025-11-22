@@ -1,15 +1,17 @@
-# 🎓 Plataforma de Matemáticas
+# 🎓 Plataforma Mikady - Matemáticas
 
-Plataforma educativa para clases de matemáticas de primaria (1º-3º) con sistema de clases particulares.
+Plataforma educativa para clases de matemáticas de primaria (1º-3º) con panel de administración completo.
 
 ## 📋 Características
 
 - ✅ Sistema de autenticación seguro
-- 📚 Clases del colegio por grado (1º, 2º, 3º primaria)
-- 👨‍🏫 Área de clases particulares con enlaces a videollamadas
-- 📝 Ejercicios prácticos descargables
-- 📋 Sistema de anotaciones personales
-- 📥 Subida y descarga de materiales
+- 👩‍🏫 **Panel de administración completo** para la profesora
+- 📚 Gestión de clases del colegio por grado (1º, 2º, 3º primaria)
+- 👨‍🏫 Gestión de clases particulares con enlaces a videollamadas
+- 📝 Gestión de ejercicios prácticos
+- 👥 Creación de usuarios para alumnos desde el panel
+- 📥 Subida de archivos (PDF, imágenes) directamente desde la web
+- 📋 Sistema de anotaciones personales para alumnos
 
 ## 🚀 Instalación
 
@@ -97,14 +99,31 @@ CREATE POLICY "Usuarios pueden eliminar sus anotaciones" ON anotaciones FOR DELE
    - `VITE_SUPABASE_ANON_KEY`
 4. Desplegar
 
-## 👥 Crear Usuarios
+## 👩‍🏫 Panel de Administración
 
-En Supabase > Authentication > Users, crear usuarios manualmente con email y contraseña.
+La profesora puede gestionar TODO desde la plataforma web:
+- Subir y eliminar clases del colegio
+- Crear clases particulares con enlaces de Zoom/Meet
+- Subir ejercicios prácticos
+- Crear usuarios para alumnos
+- Todo con interfaz visual, sin tocar código ni Supabase
 
 ## 📱 Uso
 
-- Los alumnos ingresan con su email y contraseña
+**Para la profesora:**
+- Ingresa con su email de administrador
+- Ve automáticamente el panel de administración
+- Gestiona todo desde ahí
+
+**Para los alumnos:**
+- Ingresan con su email y contraseña
 - Acceden a materiales según su grado
-- Pueden ver clases particulares y unirse a videollamadas
-- Practican con ejercicios descargables
+- Ven clases particulares y se unen a videollamadas
+- Descargan y practican ejercicios
 - Guardan notas personales
+
+## 📚 Documentación
+
+- `CONFIGURACION_STORAGE.md` - Configuración inicial de Supabase
+- `GUIA_USO_PROFESORA.md` - Guía simple para la profesora
+- `GUIA_DESPLIEGUE_SIN_GIT.md` - Despliegue sin instalar nada
