@@ -92,42 +92,37 @@ function GestionUsuarios() {
   }
 
   const eliminarAlumno = async (alumnoInfoId, userId) => {
-    if (!confirm('¿Estás segura de eliminar este alumno? Se eliminarán sus datos y notas de la plataforma.')) {
+    if (!confirm('¿Estás segura de eliminar este alumno? Se eliminará COMPLETAMENTE (usuario, datos y notas).')) {
       return
     }
 
     try {
       setLoading(true)
       
-      // Eliminar las notas del alumno primero
-      const { error: notasError } = await supabase
-        .from('notas_alumnos')
-        .delete()
-        .eq('user_id', userId)
-
-      if (notasError) {
-        console.error('Error eliminando notas:', notasError)
-      }
-
-      // Eliminar de la tabla alumnos_info
-      const { error: infoError } = await supabase
-        .from('alumnos_info')
-        .delete()
-        .eq('id', alumnoInfoId)
-
-      if (infoError) throw infoError
-
-      setMensaje({ 
-        tipo: 'success', 
-        texto: 'Alumno eliminado de la plataforma. Para eliminarlo completamente de Supabase, ve a Authentication > Users y elimínalo manualmente.' 
+      // Usar la función de base de datos para eliminar completamente
+      const { error } = await supabase.rpc('delete_user_completely', {
+        user_id_to_delete: userId
       })
-      
-      setTimeout(() => {
-        setMensaje(null)
-        cargarUsuarios()
-      }, 3000)
+
+      if (error) {
+        console.error('Error eliminando usuario:', error)
+        setMensaje({ 
+          tipo: 'error', 
+          texto: 'Error al eliminar: ' + error.message + '. Intenta eliminarlo manualmente desde Supabase > Authentication > Users.' 
+        })
+      } else {
+        setMensaje({ 
+          tipo: 'success', 
+          texto: '¡Alumno eliminado completamente! Ya no podrá entrar a la plataforma.' 
+        })
+        
+        setTimeout(() => {
+          setMensaje(null)
+          cargarUsuarios()
+        }, 2000)
+      }
     } catch (error) {
-      setMensaje({ tipo: 'error', texto: 'Error al eliminar: ' + error.message })
+      setMensaje({ tipo: 'error', texto: 'Error: ' + error.message })
     } finally {
       setLoading(false)
     }
