@@ -11,6 +11,7 @@ function Dashboard({ user }) {
   const isAdmin = user.email === ADMIN_EMAIL
   const [verificandoPerfil, setVerificandoPerfil] = useState(true)
   const [tieneAccesoParticulares, setTieneAccesoParticulares] = useState(false)
+  const [nombreAlumno, setNombreAlumno] = useState('')
 
   useEffect(() => {
     verificarPerfil()
@@ -20,12 +21,13 @@ function Dashboard({ user }) {
     if (isAdmin) {
       setVerificandoPerfil(false)
       setTieneAccesoParticulares(true)
+      setNombreAlumno('Miss Mikady')
       return
     }
 
     const { data } = await supabase
       .from('alumnos_info')
-      .select('datos_completos, acceso_particulares')
+      .select('datos_completos, acceso_particulares, nombre')
       .eq('user_id', user.id)
       .maybeSingle()
 
@@ -33,6 +35,7 @@ function Dashboard({ user }) {
       navigate('/completar-perfil')
     } else {
       setTieneAccesoParticulares(data.acceso_particulares || false)
+      setNombreAlumno(data.nombre || '')
       setVerificandoPerfil(false)
     }
   }
@@ -52,7 +55,7 @@ function Dashboard({ user }) {
       <header className="dashboard-header">
         <h1>🌟 Plataforma de Miss Mikady 🌟</h1>
         <div className="user-info">
-          <span className="welcome-text">¡Hola! 👋</span>
+          <span className="welcome-text">¡Hola{nombreAlumno ? `, ${nombreAlumno}` : ''}! 👋</span>
           <button onClick={handleLogout} className="logout-btn">👋 Salir</button>
         </div>
       </header>

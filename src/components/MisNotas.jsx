@@ -6,14 +6,28 @@ import './MisNotas.css'
 function MisNotas({ user }) {
   const navigate = useNavigate()
   const [notas, setNotas] = useState([])
+  const [nombreAlumno, setNombreAlumno] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    cargarNotas()
+    cargarDatos()
   }, [])
 
-  const cargarNotas = async () => {
+  const cargarDatos = async () => {
     setLoading(true)
+    
+    // Cargar nombre del alumno
+    const { data: alumnoData } = await supabase
+      .from('alumnos_info')
+      .select('nombre')
+      .eq('user_id', user.id)
+      .single()
+    
+    if (alumnoData) {
+      setNombreAlumno(alumnoData.nombre)
+    }
+
+    // Cargar notas
     const { data, error } = await supabase
       .from('notas_alumnos')
       .select('*')
@@ -38,7 +52,7 @@ function MisNotas({ user }) {
 
       <div className="container">
         <div className="welcome-banner">
-          <h2>¡Hola! 👋</h2>
+          <h2>¡Hola{nombreAlumno ? `, ${nombreAlumno}` : ''}! 👋</h2>
           <p>Aquí puedes ver tus calificaciones y comentarios de Miss Mikady</p>
         </div>
 

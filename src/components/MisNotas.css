@@ -12,11 +12,17 @@
   right: 0;
   bottom: 0;
   background: rgba(102, 126, 234, 0.7);
+  z-index: 0;
+}
+
+.mis-notas-page .page-header {
+  position: relative;
+  z-index: 10;
 }
 
 .mis-notas-page .container {
   position: relative;
-  z-index: 1;
+  z-index: 5;
 }
 
 .welcome-banner {
