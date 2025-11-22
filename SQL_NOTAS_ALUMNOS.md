@@ -32,6 +32,28 @@ WITH CHECK (true);
 CREATE POLICY "Admin puede eliminar notas" 
 ON notas_alumnos FOR DELETE 
 USING (true);
+
+-- Tabla para información adicional de alumnos
+CREATE TABLE alumnos_info (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users NOT NULL,
+  nombre TEXT NOT NULL,
+  email TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Habilitar Row Level Security
+ALTER TABLE alumnos_info ENABLE ROW LEVEL SECURITY;
+
+-- Política: todos pueden ver la info de alumnos
+CREATE POLICY "Todos pueden ver alumnos" 
+ON alumnos_info FOR SELECT 
+USING (true);
+
+-- Política: solo autenticados pueden insertar
+CREATE POLICY "Admin puede crear alumnos" 
+ON alumnos_info FOR INSERT 
+WITH CHECK (true);
 ```
 
 ## Instrucciones:

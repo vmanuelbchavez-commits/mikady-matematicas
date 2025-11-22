@@ -29,10 +29,11 @@ function GestionNotas() {
   }, [alumnoSeleccionado])
 
   const cargarAlumnos = async () => {
-    const { data } = await supabase.auth.admin.listUsers()
-    const ADMIN_EMAIL = 'miss_mikady@mikady.com'
-    const alumnosFiltrados = data?.users.filter(u => u.email !== ADMIN_EMAIL) || []
-    setAlumnos(alumnosFiltrados)
+    const { data } = await supabase
+      .from('alumnos_info')
+      .select('*')
+      .order('nombre')
+    setAlumnos(data || [])
   }
 
   const cargarNotasAlumno = async () => {
@@ -75,7 +76,7 @@ function GestionNotas() {
     }
   }
 
-  const alumnoActual = alumnos.find(a => a.id === alumnoSeleccionado)
+  const alumnoActual = alumnos.find(a => a.user_id === alumnoSeleccionado)
 
   return (
     <div className="admin-page">
@@ -103,8 +104,8 @@ function GestionNotas() {
             >
               <option value="">-- Selecciona un alumno --</option>
               {alumnos.map((alumno) => (
-                <option key={alumno.id} value={alumno.id}>
-                  {alumno.user_metadata?.nombre || alumno.email}
+                <option key={alumno.user_id} value={alumno.user_id}>
+                  {alumno.nombre} ({alumno.email})
                 </option>
               ))}
             </select>
@@ -113,7 +114,7 @@ function GestionNotas() {
           {alumnoSeleccionado && (
             <>
               <div className="alumno-info">
-                <h3>📝 Agregar nota para: {alumnoActual?.user_metadata?.nombre || alumnoActual?.email}</h3>
+                <h3>📝 Agregar nota para: {alumnoActual?.nombre || alumnoActual?.email}</h3>
               </div>
 
               <form onSubmit={handleSubmit}>
@@ -180,7 +181,7 @@ function GestionNotas() {
               </form>
 
               <div className="items-list">
-                <h2>Notas de {alumnoActual?.user_metadata?.nombre || alumnoActual?.email}</h2>
+                <h2>Notas de {alumnoActual?.nombre || alumnoActual?.email}</h2>
                 {notas.length === 0 ? (
                   <p>Este alumno aún no tiene notas</p>
                 ) : (

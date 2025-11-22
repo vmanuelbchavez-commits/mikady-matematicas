@@ -19,8 +19,12 @@ function GestionUsuarios() {
   }, [])
 
   const cargarUsuarios = async () => {
-    const { data } = await supabase.auth.admin.listUsers()
-    setUsuarios(data?.users || [])
+    // Cargar alumnos desde tabla personalizada
+    const { data } = await supabase
+      .from('alumnos_info')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setUsuarios(data || [])
   }
 
   const handleSubmit = async (e) => {
@@ -28,19 +32,43 @@ function GestionUsuarios() {
     setLoading(true)
     setMensaje(null)
 
-    const { data, error } = await supabase.auth.admin.createUser({
-      email: formData.email,
-      password: formData.password,
-      email_confirm: true,
-      user_metadata: { nombre: formData.nombre }
-    })
+    try {
+      // Crear usuario con signUp
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { nombre: formData.nombre }
+        }
+      })
 
-    if (error) {
-      setMensaje({ tipo: 'error', texto: 'Error al crear usuario: ' + error.message })
-    } else {
-      setMensaje({ tipo: 'success', texto: '¡Usuario creado exitosamente!' })
+      if (authError) throw authError
+
+      // Guardar info adicional del alumno
+      if (authData.user) {
+        const { error: dbError } = await supabase
+          .from('alumnos_info')
+          .insert([{
+            user_id: authData.user.id,
+            nombre: formData.nombre,
+            email: formData.email
+          }])
+
+        if (dbError) throw dbError
+      }
+
+      setMensaje({ 
+        tipo: 'success', 
+        texto: '¡Alumno creado exitosamente! Ya puede ingresar a la plataforma.' 
+      })
       setFormData({ email: '', password: '', nombre: '' })
       cargarUsuarios()
+    } catch (error) {
+      setMensaje({ 
+        tipo: 'error', 
+        texto: 'Error: ' + error.message + '. Por favor, crea el usuario manualmente en Supabase > Authentication > Users.' 
+      })
     }
     setLoading(false)
   }
@@ -108,7 +136,7 @@ function GestionUsuarios() {
             <div className="usuarios-grid">
               {usuarios.map((usuario) => (
                 <div key={usuario.id} className="item-card">
-                  <h3>{usuario.user_metadata?.nombre || 'Sin nombre'}</h3>
+                  <h3>{usuario.nombre || 'Sin nombre'}</h3>
                   <p>📧 {usuario.email}</p>
                   <p>📅 Creado: {new Date(usuario.created_at).toLocaleDateString('es-PE')}</p>
                 </div>
